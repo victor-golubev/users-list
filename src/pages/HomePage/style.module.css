@@ -1,0 +1,14 @@
+.users {
+  text-align: center;
+}
+
+.users_list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* строго 5 колонок */
+  gap: 16px;
+  padding: 16px;
+}
+
+.title {
+  text-transform: uppercase;
+}
