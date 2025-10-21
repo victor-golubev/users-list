@@ -9,6 +9,8 @@
   padding: 16px;
 }
 
-.title {
-  text-transform: uppercase;
+.add {
+  margin-top: 30px;
+  padding: 10px 20px;
+  background-color: var(--color-primary-light);
 }

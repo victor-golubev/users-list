@@ -1,6 +1,6 @@
 import style from "./style.module.css";
 
-function UserCard({ user, onFavorite }) {
+function UserCard({ user, isFavorite, onToggleFavorite, onEdit }) {
   const img = user.picture.large;
   return (
     <div className={style.user}>
@@ -14,9 +14,16 @@ function UserCard({ user, onFavorite }) {
       <p className={style.age}>
         <span>Возраст:</span> {user.dob.age}
       </p>
-      <button className={style.button} onClick={() => onFavorite(user)}>
-        В избранное
+
+      <button
+        className={
+          isFavorite ? `${style.button} ${style.active}` : style.button
+        }
+        onClick={() => onToggleFavorite(user)}
+      >
+        {isFavorite ? `Удалить из избранного` : `Добавить в избранное`}
       </button>
+      <button onClick={() => onEdit(user)}>Редактировать</button>
     </div>
   );
 }

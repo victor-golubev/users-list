@@ -30,6 +30,12 @@ span {
   font-weight: 700;
 }
 
-button {
+.button {
   margin-top: 10px;
+  font-size: 14px;
+  background-color: var(--color-primary-light);
+}
+
+.active {
+  background-color: var(--color-gray);
 }

@@ -2,10 +2,11 @@
   --color-bg: #f9f9f9;
   --color-primary: #7ed0ff;
   --color-primary-dark: #629dbd;
-  --color-primary-light: #b8e8fa;
+  --color-primary-light: #c8e9f5;
   --color-text: #ffffff;
   --color-accent: #57b3ca;
   --color-logo: #76e4ff;
+  --color-gray: #ebeef0;
 }
 
 * {
