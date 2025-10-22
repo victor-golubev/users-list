@@ -14,3 +14,8 @@
   padding: 10px 20px;
   background-color: var(--color-primary-light);
 }
+
+.empty {
+  margin-top: 20px;
+  color: #9e9e9e;
+}

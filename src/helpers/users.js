@@ -1,14 +1,31 @@
-export const FAVORITES_KEY = "users";
+import { getFavorites, saveFavorites } from "./favorites";
+
+const USERS_KEY = "users";
+
+export function updateUserEverywhere(updatedUser) {
+  const users = getUsers();
+  const updatedUsers = users.map((u) =>
+    u.id.value === updatedUser.id.value ? updatedUser : u
+  );
+  saveUsers(updatedUsers);
+
+  const favorites = getFavorites();
+  if (favorites[updatedUser.id.value]) {
+    saveFavorites({ ...favorites, [updatedUser.id.value]: updatedUser });
+  }
+
+  return updatedUsers;
+}
 
 export const getUsers = () => {
   try {
-    const saved = localStorage.getItem(FAVORITES_KEY);
+    const saved = localStorage.getItem(USERS_KEY);
     return saved ? JSON.parse(saved) : {};
   } catch {
     return {};
   }
 };
 
-export const saveUsers = (favorites) => {
-  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+export const saveUsers = (users) => {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
 };

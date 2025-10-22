@@ -15,9 +15,19 @@ export default function useFavorites() {
     });
   };
 
+  // ✅ Обновляет ИЛИ добавляет пользователя
+  const updateFavorite = (updatedUser) => {
+    const id = updatedUser.id?.value;
+    if (!id) return;
+    setFavorites((prev) => ({
+      ...prev,
+      [id]: updatedUser,
+    }));
+  };
+
   useEffect(() => {
     saveFavorites(favorites);
   }, [favorites]);
 
-  return { favorites, toggleFavorite };
+  return { favorites, toggleFavorite, updateFavorite };
 }
