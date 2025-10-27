@@ -1,33 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { getFavorites, saveFavorites } from "@/helpers/favorites";
 
-export default function useFavorites() {
-  const [favorites, setFavorites] = useState(() => getFavorites());
-
-  const toggleFavorite = (user) => {
-    const id = user.id?.value;
-    if (!id) return;
-    setFavorites((prev) => {
-      const updated = { ...prev };
-      if (updated[id]) delete updated[id];
-      else updated[id] = user;
-      return updated;
-    });
-  };
-
-  // ✅ Обновляет ИЛИ добавляет пользователя
-  const updateFavorite = (updatedUser) => {
-    const id = updatedUser.id?.value;
-    if (!id) return;
-    setFavorites((prev) => ({
-      ...prev,
-      [id]: updatedUser,
-    }));
-  };
+export default function useFavorites(users = []) {
+  const [favorites, setFavorites] = useState(() => {
+    const saved = getFavorites();
+    return Array.isArray(saved) ? saved : [];
+  });
 
   useEffect(() => {
     saveFavorites(favorites);
   }, [favorites]);
 
-  return { favorites, toggleFavorite, updateFavorite };
+  const toggleFavorite = (userId) => {
+    setFavorites((prev) =>
+      prev.includes(userId)
+        ? prev.filter((id) => id !== userId)
+        : [...prev, userId]
+    );
+  };
+
+  const favoriteUsers = useMemo(() => {
+    if (!Array.isArray(users) || !Array.isArray(favorites)) {
+      return [];
+    }
+    return users.filter(
+      (user) => user?.id?.value && favorites.includes(user.id.value)
+    );
+  }, [users, favorites]);
+
+  return { favorites, favoriteUsers, toggleFavorite, setFavorites };
 }

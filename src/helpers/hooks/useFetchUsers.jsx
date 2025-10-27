@@ -1,48 +1,50 @@
 import { useEffect, useState } from "react";
 
-function useFetchUsers(url) {
-  const [data, setData] = useState(() => {
-    const users = localStorage.getItem("users");
-    try {
-      return users ? JSON.parse(users) : null;
-    } catch {
-      return null;
-    }
-  });
-  const [isLoading, setIsLoading] = useState(!data);
+const API_URL = import.meta.env.VITE_API_URL;
+
+function useFetchUsers() {
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!data) {
-      const fetchData = async () => {
-        try {
-          setIsLoading(true);
-          setError(null);
+    const fetchUsers = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
 
-          const response = await fetch(url);
+        const savedUsers = localStorage.getItem("users");
+        const parsedUsers = savedUsers ? JSON.parse(savedUsers) : [];
 
-          if (!response.ok) {
-            const text = await response.text();
-            console.error("Fetch failed:", text);
-            throw new Error("Fetch error: " + response.status);
-          }
-
-          const answer = await response.json();
-          setData(answer.results);
-          localStorage.setItem("users", JSON.stringify(answer.results));
-        } catch (error) {
-          setError(error);
-          setData(null);
-        } finally {
+        if (parsedUsers && parsedUsers.length > 0) {
+          setUsers(parsedUsers);
           setIsLoading(false);
+          return;
         }
-      };
 
-      fetchData();
-    }
-  }, [url, data]);
+        const response = await fetch(API_URL);
 
-  return { data, isLoading, error };
+        if (!response.ok) {
+          throw new Error("Fetch error: " + response.status);
+        }
+
+        const answer = await response.json();
+        const newUsers = answer.results || [];
+
+        setUsers(newUsers);
+        localStorage.setItem("users", JSON.stringify(newUsers));
+      } catch (error) {
+        setError(error);
+        console.error("Error fetching users:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  return { users, setUsers, isLoading, error };
 }
 
 export default useFetchUsers;

@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { getFavorites, saveFavorites } from "@/helpers/favorites";
 import style from "./style.module.css";
 
 function UserAddForm({ onUserAdd, onClose }) {
@@ -12,18 +11,30 @@ function UserAddForm({ onUserAdd, onClose }) {
 
   const onSubmit = (data) => {
     const newUser = {
-      id: { value: Date.now() },
-      picture: { large: data.photo },
-      name: { first: data.firstname, last: data.lastname },
-      dob: { age: data.age },
+      id: {
+        value: `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      },
+      picture: {
+        large: data.photo || "",
+        medium: data.photo || "",
+        thumbnail: data.photo || "",
+      },
+      name: {
+        first: data.firstname,
+        last: data.lastname,
+      },
+      dob: {
+        age: parseInt(data.age) || 0,
+      },
+      email: "",
+      phone: "",
+      location: {
+        city: "",
+        country: "",
+      },
     };
 
-    const favorites = getFavorites();
-    const updatedFavorites = { ...favorites, [newUser.id.value]: newUser };
-    saveFavorites(updatedFavorites);
-
     onUserAdd(newUser);
-
     reset();
     onClose();
   };
@@ -33,10 +44,9 @@ function UserAddForm({ onUserAdd, onClose }) {
       <label>
         Ссылка на фото
         <input
-          {...register("photo", { required: "Фото обязательно" })}
-          placeholder="Введите адрес фото"
+          {...register("photo")}
+          placeholder="Введите адрес фото (опционально)"
         />
-        {errors.photo && <p>{errors.photo.message}</p>}
       </label>
 
       <label>
@@ -45,7 +55,9 @@ function UserAddForm({ onUserAdd, onClose }) {
           {...register("firstname", { required: "Имя обязательно" })}
           placeholder="Введите имя"
         />
-        {errors.firstname && <p>{errors.firstname.message}</p>}
+        {errors.firstname && (
+          <p className={style.error}>{errors.firstname.message}</p>
+        )}
       </label>
 
       <label>
@@ -54,7 +66,9 @@ function UserAddForm({ onUserAdd, onClose }) {
           {...register("lastname", { required: "Фамилия обязательна" })}
           placeholder="Введите фамилию"
         />
-        {errors.lastname && <p>{errors.lastname.message}</p>}
+        {errors.lastname && (
+          <p className={style.error}>{errors.lastname.message}</p>
+        )}
       </label>
 
       <label>
@@ -64,14 +78,20 @@ function UserAddForm({ onUserAdd, onClose }) {
             required: "Возраст обязателен",
             valueAsNumber: true,
             min: { value: 0, message: "Возраст не может быть отрицательным" },
+            max: { value: 150, message: "Возраст должен быть реалистичным" },
           })}
           placeholder="Введите возраст"
           type="number"
         />
-        {errors.age && <p>{errors.age.message}</p>}
+        {errors.age && <p className={style.error}>{errors.age.message}</p>}
       </label>
 
-      <button type="submit">Добавить</button>
+      <div className={style.buttons}>
+        <button type="submit">Добавить</button>
+        <button type="button" onClick={onClose} className={style.cancel}>
+          Отмена
+        </button>
+      </div>
     </form>
   );
 }

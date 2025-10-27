@@ -4,7 +4,7 @@
 
 .users_list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* строго 5 колонок */
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
   padding: 16px;
 }
@@ -18,4 +18,16 @@
 .empty {
   margin-top: 20px;
   color: #9e9e9e;
+}
+
+.input {
+  margin: 30px 0;
+  max-width: 690px;
+  padding: 10px 20px;
+  box-shadow: 0px 0px 8px 2px rgba(34, 60, 80, 0.1);
+  -webkit-transition: box-shadow 0.3s ease;
+  -moz-transition: box-shadow 0.3s ease;
+  -ms-transition: box-shadow 0.3s ease;
+  -o-transition: box-shadow 0.3s ease;
+  border: none;
 }
