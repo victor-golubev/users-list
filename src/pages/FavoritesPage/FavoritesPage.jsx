@@ -29,16 +29,16 @@ function FavoritesPage() {
     <section className={style.users}>
       <h1 className="title">Избранные</h1>
 
+      <input
+        type="text"
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        placeholder="Введите имя для поиска"
+        className={style.input}
+      />
+
       {filteredFavorites.length > 0 ? (
         <>
-          <input
-            type="text"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            placeholder="Введите имя для поиска"
-            className={style.input}
-          />
-
           <div className={style.users_list}>
             {filteredFavorites.map((user) => (
               <UserCard
