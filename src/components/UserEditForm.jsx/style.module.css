@@ -18,3 +18,8 @@
 .form button {
   background-color: var(--color-primary-light);
 }
+
+button.cancel {
+  margin-left: 20px;
+  background-color: var(--color-gray);
+}

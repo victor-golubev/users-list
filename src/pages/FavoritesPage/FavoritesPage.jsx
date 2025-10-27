@@ -1,37 +1,29 @@
 import UserCard from "@/components/UserCard/UserCard";
 import style from "./style.module.css";
-import { useEffect, useState } from "react";
-import SearchInput from "@/components/SearchInput/SearchInput";
-import useFavorites from "@/helpers/hooks/useFavorites";
 import Modal from "@/components/Modal/Modal";
-import { updateUserEverywhere } from "@/helpers/users";
+
+import useFetchUsers from "@/helpers/hooks/useFetchUsers";
+import useFavorites from "@/helpers/hooks/useFavorites";
+import useEditUser from "@/helpers/hooks/useEditUser";
+import useAddUser from "@/helpers/hooks/useAddUser";
+import useFilteredUsers from "@/helpers/hooks/useFilteredUsers";
 
 function FavoritesPage() {
-  const { favorites, toggleFavorite, updateFavorite } = useFavorites();
-  const [filteredFavorites, setFilteredFavorites] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
-  const [editingUser, setEditingUser] = useState(null);
-  const [addUser, setAddUser] = useState(false);
+  const { users, setUsers, isLoading, error } = useFetchUsers();
+  const { editingUser, setEditingUser, handleUserUpdate } =
+    useEditUser(setUsers);
+  const { favorites, favoriteUsers, toggleFavorite, setFavorites } =
+    useFavorites(users);
+  const { filteredFavorites, searchValue, setSearchValue } =
+    useFilteredUsers(favoriteUsers);
 
-  useEffect(() => {
-    const filtered = Object.values(favorites).filter(
-      (user) =>
-        user.name.first.toLowerCase().includes(searchValue.toLowerCase()) ||
-        user.name.last.toLowerCase().includes(searchValue.toLowerCase())
-    );
-    setFilteredFavorites(filtered);
-  }, [searchValue, favorites]);
+  const { addUser, setAddUser, handleAddUser } = useAddUser(
+    setUsers,
+    setFavorites
+  );
 
-  const handleUserUpdate = (updatedUser) => {
-    updateFavorite(updatedUser);
-    updateUserEverywhere(updatedUser);
-    setEditingUser(null);
-  };
-
-  const handleAddUser = (newUser) => {
-    updateFavorite(newUser);
-    setAddUser(false);
-  };
+  if (isLoading) return <p>Загрузка...</p>;
+  if (error) return <p>Ошибка: {error.message}</p>;
 
   return (
     <section className={style.users}>
@@ -39,15 +31,21 @@ function FavoritesPage() {
 
       {filteredFavorites.length > 0 ? (
         <>
-          <SearchInput value={searchValue} onChange={setSearchValue} />
+          <input
+            type="text"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            placeholder="Введите имя для поиска"
+            className={style.input}
+          />
 
           <div className={style.users_list}>
             {filteredFavorites.map((user) => (
               <UserCard
                 key={user.id.value}
                 user={user}
-                isFavorite={!!favorites[user.id.value]}
-                onToggleFavorite={toggleFavorite}
+                isFavorite={favorites.includes(user.id.value)}
+                onToggleFavorite={() => toggleFavorite(user.id.value)}
                 onEdit={setEditingUser}
               />
             ))}

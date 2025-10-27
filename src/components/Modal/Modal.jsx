@@ -8,7 +8,11 @@ function Modal({ user, onUserUpdate, onUserAdd, onClose }) {
     <div className={style.overlay}>
       <div className={style.modal}>
         {isEditing ? (
-          <UserEditForm user={user} onUserUpdate={onUserUpdate} />
+          <UserEditForm
+            user={user}
+            onUserUpdate={onUserUpdate}
+            onClose={onClose}
+          />
         ) : (
           <UserAddForm onUserAdd={onUserAdd} onClose={onClose} />
         )}

@@ -4,7 +4,7 @@ import { getUsers, saveUsers } from "@/helpers/users";
 import style from "./style.module.css";
 import { updateUserEverywhere } from "@/helpers/users";
 
-function UserEditForm({ user, onUserUpdate }) {
+function UserEditForm({ user, onUserUpdate, onClose }) {
   const {
     register,
     handleSubmit,
@@ -79,6 +79,9 @@ function UserEditForm({ user, onUserUpdate }) {
       {errors.age && <p>{errors.age.message}</p>}
 
       <button type="submit">Изменить</button>
+      <button type="button" onClick={onClose} className={style.cancel}>
+        Отмена
+      </button>
     </form>
   );
 }

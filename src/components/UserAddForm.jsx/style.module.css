@@ -36,3 +36,8 @@
   -ms-transform: translateX(-50%);
   -o-transform: translateX(-50%);
 }
+
+button.cancel {
+  margin-left: 20px;
+  background-color: var(--color-gray);
+}

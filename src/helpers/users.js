@@ -10,9 +10,6 @@ export function updateUserEverywhere(updatedUser) {
   saveUsers(updatedUsers);
 
   const favorites = getFavorites();
-  if (favorites[updatedUser.id.value]) {
-    saveFavorites({ ...favorites, [updatedUser.id.value]: updatedUser });
-  }
 
   return updatedUsers;
 }
@@ -20,9 +17,9 @@ export function updateUserEverywhere(updatedUser) {
 export const getUsers = () => {
   try {
     const saved = localStorage.getItem(USERS_KEY);
-    return saved ? JSON.parse(saved) : {};
+    return saved ? JSON.parse(saved) : [];
   } catch {
-    return {};
+    return [];
   }
 };
 
