@@ -1,3 +1,7 @@
 .users {
   text-align: center;
 }
+
+.users .title {
+  margin-bottom: 30px;
+}
