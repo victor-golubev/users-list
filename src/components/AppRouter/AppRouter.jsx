@@ -1,14 +1,19 @@
-import FavoritesPage from "@/pages/FavoritesPage/FavoritesPage";
-import HomePage from "@/pages/HomePage/HomePage";
 import { Route, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
+
+const HomePage = lazy(() => import("@/pages/HomePage/HomePage"));
+const FavoritesPage = lazy(() => import("@/pages/FavoritesPage/FavoritesPage"));
+const NotFound = lazy(() => import("@/components/NotFound/NotFound"));
 
 function AppRouter() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/favorites" element={<FavoritesPage />} />
-      <Route path="*" element={<p>Страница не найдена</p>} />
-    </Routes>
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
   );
 }
 

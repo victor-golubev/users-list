@@ -2,6 +2,7 @@ import style from "./style.module.css";
 
 function UserCard({ user, isFavorite = true, onToggleFavorite, onEdit }) {
   const img = user.picture?.large || user.picture?.medium;
+
   return (
     <div className={style.user}>
       <img src={img} alt={user.name.first} className={style.photo} />

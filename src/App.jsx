@@ -4,12 +4,14 @@ import Header from "./components/Header/Header";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
+    <BrowserRouter>
+      <div className="app">
         <Header />
-        <AppRouter />
-      </BrowserRouter>
-    </>
+        <main className="main-project">
+          <AppRouter />
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }
 
