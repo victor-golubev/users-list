@@ -29,6 +29,7 @@
   border-radius: 20px;
   margin-bottom: 15px;
   object-fit: cover;
+  background-color: var(--color-gray);
 }
 
 span {
