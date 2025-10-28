@@ -33,6 +33,7 @@ function UserEditForm({ user, onUserUpdate, onClose }) {
 
     updateUserEverywhere(updatedUser);
     onUserUpdate(updatedUser);
+    onClose();
   };
 
   return (

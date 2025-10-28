@@ -1,21 +1,10 @@
-import UserAddForm from "../UserAddForm.jsx/UserAddForm";
-import UserEditForm from "../UserEditForm.jsx/UserEditForm";
 import style from "./style.module.css";
 
-function Modal({ user, onUserUpdate, onUserAdd, onClose }) {
-  const isEditing = Boolean(user);
+function Modal({ children, onClose }) {
   return (
     <div className={style.overlay}>
       <div className={style.modal}>
-        {isEditing ? (
-          <UserEditForm
-            user={user}
-            onUserUpdate={onUserUpdate}
-            onClose={onClose}
-          />
-        ) : (
-          <UserAddForm onUserAdd={onUserAdd} onClose={onClose} />
-        )}
+        {children}
         <button className={style.closeBtn} onClick={onClose}>
           ✕
         </button>

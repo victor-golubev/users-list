@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getUsers, saveUsers } from "../users";
 import { getFavorites, saveFavorites } from "../favorites";
+import { generateUserId } from "@/helpers/generateId";
 
 function useAddUser(setUsers, setFavorites) {
   const [addUser, setAddUser] = useState(false);
