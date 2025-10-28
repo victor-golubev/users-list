@@ -16,7 +16,7 @@ function HomePage() {
 
   return (
     <section className={style.users}>
-      <h1 className="title">Список пользователей</h1>
+      <h1 className={style.title}>Список пользователей</h1>
 
       <UsersList
         users={users}

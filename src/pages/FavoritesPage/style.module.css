@@ -2,11 +2,15 @@
   text-align: center;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .users_list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(215px, max-content));
   gap: 16px;
-  padding: 16px;
 }
 
 .add {
