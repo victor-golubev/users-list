@@ -1,15 +1,20 @@
-import useFetchUsers from "@/helpers/hooks/useFetchUsers";
-import useFavorites from "@/helpers/hooks/useFavorites";
-import useEditUser from "@/helpers/hooks/useEditUser";
 import style from "./style.module.css";
 import Modal from "@/components/Modal/Modal";
+import UserEditForm from "@/components/UserEditForm.jsx/UserEditForm";
 import UsersList from "@/components/UsersList/UsersList";
+import useHomePageLogic from "@/helpers/hooks/useHomePageLogic";
 
 function HomePage() {
-  const { users, setUsers, isLoading, error } = useFetchUsers();
-  const { favorites, toggleFavorite } = useFavorites(users);
-  const { editingUser, setEditingUser, handleUserUpdate } =
-    useEditUser(setUsers);
+  const {
+    users,
+    favorites,
+    isLoading,
+    error,
+    toggleFavorite,
+    editingUser,
+    setEditingUser,
+    handleUserUpdate,
+  } = useHomePageLogic();
 
   if (isLoading) return <p>Загрузка...</p>;
   if (error) return <p>Ошибка: {error.message}</p>;
@@ -26,11 +31,13 @@ function HomePage() {
       />
 
       {editingUser && (
-        <Modal
-          user={editingUser}
-          onUserUpdate={handleUserUpdate}
-          onClose={() => setEditingUser(null)}
-        />
+        <Modal onClose={() => setEditingUser(null)}>
+          <UserEditForm
+            user={editingUser}
+            onUserUpdate={handleUserUpdate}
+            onClose={() => setEditingUser(null)}
+          />
+        </Modal>
       )}
     </section>
   );

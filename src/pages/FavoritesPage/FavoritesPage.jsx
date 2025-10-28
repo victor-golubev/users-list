@@ -1,26 +1,26 @@
-import UserCard from "@/components/UserCard/UserCard";
+import UserAddForm from "@/components/UserAddForm.jsx/UserAddForm";
 import style from "./style.module.css";
 import Modal from "@/components/Modal/Modal";
-
-import useFetchUsers from "@/helpers/hooks/useFetchUsers";
-import useFavorites from "@/helpers/hooks/useFavorites";
-import useEditUser from "@/helpers/hooks/useEditUser";
-import useAddUser from "@/helpers/hooks/useAddUser";
-import useFilteredUsers from "@/helpers/hooks/useFilteredUsers";
+import UserCard from "@/components/UserCard/UserCard";
+import UserEditForm from "@/components/UserEditForm.jsx/UserEditForm";
+import useFavoritesPageLogic from "@/helpers/hooks/useFavoritesPageLogic";
 
 function FavoritesPage() {
-  const { users, setUsers, isLoading, error } = useFetchUsers();
-  const { editingUser, setEditingUser, handleUserUpdate } =
-    useEditUser(setUsers);
-  const { favorites, favoriteUsers, toggleFavorite, setFavorites } =
-    useFavorites(users);
-  const { filteredFavorites, searchValue, setSearchValue } =
-    useFilteredUsers(favoriteUsers);
-
-  const { addUser, setAddUser, handleAddUser } = useAddUser(
-    setUsers,
-    setFavorites
-  );
+  const {
+    isLoading,
+    error,
+    filteredFavorites,
+    searchValue,
+    setSearchValue,
+    favorites,
+    toggleFavorite,
+    addUser,
+    setAddUser,
+    handleAddUser,
+    editingUser,
+    setEditingUser,
+    handleUserUpdate,
+  } = useFavoritesPageLogic();
 
   if (isLoading) return <p>Загрузка...</p>;
   if (error) return <p>Ошибка: {error.message}</p>;
@@ -38,19 +38,17 @@ function FavoritesPage() {
       />
 
       {filteredFavorites.length > 0 ? (
-        <>
-          <div className={style.users_list}>
-            {filteredFavorites.map((user) => (
-              <UserCard
-                key={user.id.value}
-                user={user}
-                isFavorite={favorites.includes(user.id.value)}
-                onToggleFavorite={() => toggleFavorite(user.id.value)}
-                onEdit={setEditingUser}
-              />
-            ))}
-          </div>
-        </>
+        <div className={style.users_list}>
+          {filteredFavorites.map((user) => (
+            <UserCard
+              key={user.id.value || user.id}
+              user={user}
+              isFavorite={favorites.includes(user.id.value || user.id)}
+              onToggleFavorite={() => toggleFavorite(user.id.value || user.id)}
+              onEdit={setEditingUser}
+            />
+          ))}
+        </div>
       ) : (
         <h3 className={style.empty}>Список пуст</h3>
       )}
@@ -60,15 +58,22 @@ function FavoritesPage() {
       </button>
 
       {addUser && (
-        <Modal onClose={() => setAddUser(false)} onUserAdd={handleAddUser} />
+        <Modal onClose={() => setAddUser(false)}>
+          <UserAddForm
+            onUserAdd={handleAddUser}
+            onClose={() => setAddUser(false)}
+          />
+        </Modal>
       )}
 
       {editingUser && (
-        <Modal
-          user={editingUser}
-          onUserUpdate={handleUserUpdate}
-          onClose={() => setEditingUser(null)}
-        />
+        <Modal onClose={() => setEditingUser(null)}>
+          <UserEditForm
+            user={editingUser}
+            onUserUpdate={handleUserUpdate}
+            onClose={() => setEditingUser(null)}
+          />
+        </Modal>
       )}
     </section>
   );

@@ -91,12 +91,12 @@ input,
 textarea {
   padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 20px;
+  border-radius: 40px;
   width: 100%;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  -ms-border-radius: 20px;
-  -o-border-radius: 20px;
+  -webkit-border-radius: 40px;
+  -moz-border-radius: 40px;
+  -ms-border-radius: 40px;
+  -o-border-radius: 40px;
 }
 
 input:focus,
