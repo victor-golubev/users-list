@@ -14,7 +14,6 @@
 - HTML, CSS, JavaScript
 - React, React Router
 - Vite
-- Lucide React (иконки)
 
 ## Структура проекта
 - `components/` — UI-компоненты (`UserCard`, `UsersList`, `Modal`)
